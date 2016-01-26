@@ -54,31 +54,108 @@
 
     /*********************
 
-    Start working with clean data.
+    Start working with dirty data.
 
     *********************/
 
-    var dataClean = bikeArrayClean;
-    var dataCleanFiltered=[];
+    var dataDirty = bikeArrayDirty;
+    var lng;
+    var lat;
+    var stations;
+    var address="";
+    var flag;
+    var dataDirtyFiltered=[];
+    var tempArray=[];
+    var tempStr="";
     /* =====================
 
     Start code to filter data
 
     ===================== */
 
-    for(var i=0; i < dataClean.length; i++)
-    {
-      if (dataClean[i][3] > 20){
-      dataCleanFiltered.push(dataClean[i]);
+    //Check if the string is all upper case
+    var isUpperCase = function (string){
+      tempStr = string;
+      tempStr.toUpperCase();
+      if(tempStr === string){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    //Check if the string contains the number of stations
+    var isStation = function (string){
+      return string.includes('stations');
+    }
+    //Change string to stations numbers
+    var toStationCounts = function (string){
+      return parseInt(string);
+    }
+    //Check if the string is latitude
+    var isLat = function (string){
+      if (parseFloat(string)>39 && parseFloat(string)<39.99999){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    //Check if the string is longitude
+    var isLng = function (string){
+      if (parseFloat(string)<0){
+        return true;
+      }
+      else{
+        return false;
       }
     }
 
-    // for(var k=0; k < dataCleanFiltered.length; k++)
-    // {
-    //   tempClean = dataCleanFiltered[k][0];
-    //   dataCleanFiltered[k][0] = dataCleanFiltered[k][1];
-    //   dataCleanFiltered[k][1] = tempClean;
-    // }
+    var isAddress = function (string){
+      if ((string.includes('&') || string.includes(',')) && !(string.includes('.'))){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+
+    for(var i = 0; i < dataDirty.length; i++){
+
+      flag= 0;
+
+      for(var j = 0; j < dataDirty[i].length; j++){
+
+        if(isLng(dataDirty[i][j])){
+          lng = parseFloat(dataDirty[i][j]);
+          flag+=1;
+        }
+
+        else if(isLat(dataDirty[i][j])){
+          lat = parseFloat(dataDirty[i][j]);
+          flag+=1;
+        }
+
+        else if(isStation(dataDirty[i][j]) && toStationCounts(dataDirty[i][j]) > 20){
+          stations = toStationCounts(dataDirty[i][j]);
+          flag+=1;
+        }
+
+         else if(isAddress(dataDirty[i][j])){
+           address = dataDirty[i][j];
+           flag+=1;
+        }
+
+        else{
+
+        }
+      }
+
+      if (flag === 4){
+        tempArray = [lat, lng,  address, stations, flag];
+        dataDirtyFiltered.push(tempArray);
+      }
+    }
 
 
     /* =====================
@@ -106,10 +183,10 @@
 
     ===================== */
 
-    for(var j = 0; j <dataCleanFiltered.length; j++)
+    for(var k = 0; k < dataDirtyFiltered.length; k++)
     {
-      var popUp = "<b>"+ dataCleanFiltered[j][2]+"</b>";
-      var marker = L.marker([dataCleanFiltered[j][1], dataCleanFiltered[j][0]]).addTo(map);
+      var popUp = "<b>"+ dataDirtyFiltered[k][2]+"</b>";
+      var marker = L.marker([dataDirtyFiltered[k][0], dataDirtyFiltered[k][1]]).addTo(map);
       marker.bindPopup(popUp).openPopup();
     }
 
@@ -118,7 +195,6 @@
     End code to add markers to map
 
     ===================== */
-
 
 
 

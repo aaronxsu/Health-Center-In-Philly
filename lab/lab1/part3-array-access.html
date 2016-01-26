@@ -63,9 +63,16 @@
 
     ===================== */
 
-    L.marker([0, 0]).addTo(map);
-    L.marker([0, 0]).addTo(map);
-    L.marker([0, 0]).addTo(map);
+    var restaurantData = [[39.954842, -75.193530, "Sang Kee Noodle House"],[39.954474, -75.194838, "Chattime"],[39.953253, -75.154614, "Xi_an Sizzling Woks"]];
+    for(var i=0; i < 3; i++)
+    {
+      var popUp = restaurantData[i][2];
+      var marker = L.marker(restaurantData[i]).addTo(map);
+      marker.bindPopup(popUp).openPopup();
+    }
+    //L.marker([0, 0]).addTo(map);
+    //L.marker([0, 0]).addTo(map);
+    //L.marker([0, 0]).addTo(map);
 
     /* =====================
 

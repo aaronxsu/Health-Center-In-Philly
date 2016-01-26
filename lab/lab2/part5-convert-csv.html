@@ -36,8 +36,15 @@
       Start code
 
       ===================== */
-
-      console.log(healthCentersCSV)
+      var csvStr = healthCentersCSV;
+      //Slitting the string for the first time with semi-colon
+      var tempArray = csvStr.split(";");//this is an array, each element is a string seperated by commas
+      var newArray = [];
+      //loop to seperate the elements of array, which are strings, into arrays. The result should be a two-dimension array
+      for(var i = 0; i < tempArray.length; i++){
+          newArray.push(tempArray[i].split(","));
+      }
+      console.log(newArray)
 
       /* =====================
 
