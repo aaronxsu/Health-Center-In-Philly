@@ -1,5 +1,5 @@
 # Health Centers in Philly
-To use this app: http://aronxoxo.github.io/Health-Center-In-Philly/
+To use this app: http://aaronxsu.github.io/Health-Center-In-Philly/
 
 ### Project
 We're producing a simple map to help people find health centers in the Philadelphia area. Our application has three goals:
